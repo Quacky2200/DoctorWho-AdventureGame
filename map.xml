@@ -1,10 +1,31 @@
 <?xml version="1.0"?>
 <map>
+	<room name='TARDIS' dir_name='the'>You and Clare are in the TARDIS, it seems quiet after what happened recently. The doctor (you) intigued, thinks...
+
+"Clara's state of mind seems to have changed. Perhaps she's still getting used to the *new* doctor.
+After all, he didn't have these large attack eyebrows and he never left her. Maybe I have to change..."
+
+Meanwhile, the TARDIS starts to spin out of the time vortex, everything's shaking, Clara holds on 
+tightly and shouts "What are you doing Doctor?!". Most of the light vanishes except that of the 
+TARDIS' orange glowing console. You go to grab your just-visible sonic screwdriver but you've 
+lost it. You and the sonic screwdriver are slowly moving in zero gravity towards the top of the
+TARDIS console. You need the sonic screwdriver to gain control of the TARDIS. 
+
+The console controls aren't working.<item name='sonic_screwdriver' name_type='' use='true' give='false' drop='false' take='true' weight='20G'>A very useful tool in tricky situations</item>
+<item name='phone' name_type='' use='false' give='true' drop='true' take='true' weight='150G'>A cyberman head</item>
+<character name='Clara'>The impossible girl<item name='phone' name_type='' use='false' give='true' drop='true' take='true' weight='150G'>Low battery</item></character>
+	</room>
+	<room name="Queen's Arcade" dir_name='the'></room>
+	<room name="Sainsbury's" dir_name=''></room>
+	<room name='Trevithick Building' dir_name='the'></room>
+	<room name='Refectory' dir_name='the'></room>
 	<room name='Reception' dir_name=''>Reception is a nice place to live if you're a receptionist.
 Receptionists are cool.<exit direction='south' room='Toilets'/>
 		<exit direction='west' room='Staircase'/>
 		<item name='biscuits' name_type='pack' use='true' give='true' drop='true' take='true' weight='500G'>A pack of biscuits</item>
 	</room>
+	<room name='C/2.04-5' dir_name=''><character name='Kerill Seridikov'>Some say he'sas persistant as a robot<item name='charger' name_type='' use='true' give='false' drop='true' take='true' weight='20G'>Useful for portable devices</item></character></room>
+	<room name="Robs' Room" dir_name=''></room>
 	<room name='Toilets' dir_name='the'>A strange lingering smell has been present for quite some time<exit direction='down' room='Sewers'/></room>
 	<room name='Staircase' dir_name='the'>There are stairs. That's it.</room>
 	<room name='Sewers' dir_name='the'>A stench is all you can smell and it sticks to your clothes like the smell of tobacco</room>

@@ -1,14 +1,14 @@
 import xml.etree.ElementTree as ET
-converses = {'north':'south', 'east':'west', 'up':'down', 'left':'right'}
+converses = {'north':'south', 'east':'west', 'up':'down', 'left':'right', 'into':'out'}
 rooms = []
 
 def return_xml_items(room):
 	items = []
-	for itemdict in [room[i] for i in range(len(room)) if room[i].tag == 'item']:
-		tempitem = {}
-		for x,y in itemdict.items():
-			tempitem[x] = y
-		tempitem['description'] = itemdict.text
+	tempitem = {}
+	for xmlitems in [room[i] for i in range(len(room)) if room[i].tag == 'item']:
+		tempitem = {'description': xmlitems.text}
+		for attribute, value in xmlitems.items():
+			tempitem[attribute] = (value if not (value.lower() == 'true') and not (value.lower() == 'false') else (True if value.lower() == 'true' else False))
 		items.append(tempitem)
 	return items
 def return_xml_exits(room):
@@ -47,6 +47,12 @@ def room_exists(room_id):
 def return_room(room_id):
 	if room_exists(room_id):
 		return list([room for room in rooms if room['name'] == room_id])[0]
+def find_room_by_exit(exit):
+	for room in rooms:
+		for direction, leads_to in exit.items():
+			if direction in room['exits']:
+				if leads_to in room['exits'][direction]:
+					return room
 def print_item_location(item_id):
 	for room in rooms:
 		for item in room['items']:
