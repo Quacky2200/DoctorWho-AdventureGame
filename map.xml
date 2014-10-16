@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<map>
+	<room name='Reception' dir_name=''>Reception is a nice place to live if you're a receptionist.
+Receptionists are cool.<exit direction='south' room='Toilets'/>
+		<exit direction='west' room='Staircase'/>
+		<item name='biscuits' name_type='pack' use='true' give='true' drop='true' take='true' weight='500G'>A pack of biscuits</item>
+	</room>
+	<room name='Toilets' dir_name='the'>A strange lingering smell has been present for quite some time<exit direction='down' room='Sewers'/></room>
+	<room name='Staircase' dir_name='the'>There are stairs. That's it.</room>
+	<room name='Sewers' dir_name='the'>A stench is all you can smell and it sticks to your clothes like the smell of tobacco</room>
+</map>
