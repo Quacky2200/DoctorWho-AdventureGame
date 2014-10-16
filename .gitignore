@@ -1,0 +1,4 @@
+#Python caching folder
+__pycache__
+#Mac file information
+*.DS_Store
