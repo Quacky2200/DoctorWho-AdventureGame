@@ -53,6 +53,8 @@ def list_of_items(items):
             result += 'some ' + item['name']
         elif item['name_type'] == 'pack':
             result += 'a pack of ' + item['name']
+        elif item['name_type'] == 'none':
+            result += item['name']
         elif item['name'][0] in ['a', 'e', 'i', 'o', 'u']:
             result += 'an ' + item['name']
         else:

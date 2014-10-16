@@ -1,6 +1,5 @@
 <items>
-	<item name='laptop' name_type='' use='true' give='true' drop='true' take='true' weight='2KG'>a rubbish budget value laptop</item>
-	<item name='id' name_type='' use='true' give='true' drop='false' take='false' weight='2G'>Cannot get into the premises without it</item>
-	<item name='money' name_type='group' use='true' give='true' drop='true' take='true' weight='40G'>Not enough to pay that loan off.</item>
-	<item name='sonic_screwdriver' name_type='' use='true' give='false' drop='false' take='true' weight='20G'>A handy tool in tricky situations</item>
+	<item name='psychic_paper' name_type='none' use='false' give='false' drop='false' take='false' weight='5G'>A blank white card fitted in a leather wallet. Of course, a blank white card is what I see...</item>
+	<item name='jelly_babies' name_type='group' use='false' give='false' drop='false' take='false' weight='10G'>a silver tin containing jelly babies.They're tasty.</item>
+	
 </items>
