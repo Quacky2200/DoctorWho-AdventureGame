@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<story>
+	<map>
+		<room name='the TARDIS'>You and Clara are in the TARDIS, it seems quiet after what happened recently. The doctor (you) intigued, thinks...
+
+"Clara's state of mind seems to have changed. Perhaps she's still getting used to the *new* doctor.
+After all, he didn't have these large attack eyebrows and he never left her. Maybe I have to change..."
+
+Meanwhile, the TARDIS starts to spin out of the time vortex, everything's shaking, Clara holds on tightly and 
+shouts "What are you doing Doctor?!". Most of the light vanishes except that of the TARDIS' orange glowing console. 
+You go to grab your just-visible sonic screwdriver but you've lost it. You and the sonic screwdriver are slowly moving 
+in zero gravity towards the top of the TARDIS console. You need the sonic screwdriver to gain control of the TARDIS. 
+
+The console controls aren't working.<item name='sonic_screwdriver' name_type='' use='true' give='false' drop='false' take='true' weight='20G'>A very useful tool in tricky situations</item>
+			<item name='cyberman_head' name_type='' use='false' give='false' drop='false' take='false' weight='150G'>Found from Stonehenge whereby, Pandoras Box stood.</item>
+			<character name='Clara'>The impossible girl<item name='phone' name_type='' use='false' give='true' drop='true' take='true' weight='150G'>Low battery</item></character>
+		</room>
+		<room name="the Queen's Arcade"><exit direction='east' room="Sainsbury's"/></room>
+		<room name="Sainsbury's" ><exit direction='east' room="the Car Park"/></room>
+		<room name='the Car Park'><exit direction='north' room='the Refectory'/><exit direction='upstairs' room='Reception'/></room>
+		<room name='the Refectory'><exit direction='west' room='the toilets'/></room>
+		<room name='Reception' >Reception is a nice place to live if you're a receptionist.
+Receptionists are cool.<exit direction='south' room="Robs' room"/>
+			<item name='biscuits' name_type='pack' use='true' give='true' drop='true' take='true' weight='500G'>A pack of biscuits</item>
+		</room>
+		<room name='C/2.04-5' ><character name='Kerill Sidorov'>Some say he's as persistant as a robot<item name='charger' name_type='' use='true' give='false' drop='true' take='true' weight='20G'>Useful for portable devices</item></character></room>
+		<room name="Robs' room" ><exit direction='south' room='C/2.04-5'/></room>
+		<room name='the toilets'>A strange lingering smell has been present for quite some time<exit direction='down' room='sewers'/></room>
+		<room name='sewers'>A stench is all you can smell and it sticks to your clothes like the smell of tobacco</room>
+	</map>
+	<inventory>
+		<item name='psychic_paper' name_type='none' use='false' give='false' drop='false' take='false' weight='5G'>A blank white card fitted in a leather wallet. Of course, a blank white card is what I see...</item>
+		<item name='jelly_babies' name_type='group' use='false' give='false' drop='false' take='false' weight='10G'>a silver tin containing jelly babies.They're tasty.</item>
+	</inventory>
+</story>
