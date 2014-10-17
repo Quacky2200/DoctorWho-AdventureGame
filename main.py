@@ -1,19 +1,18 @@
 #!/usr/bin/python3
 import sys
+import os
 from gameparser import *
-from item_actions import *
+from storyactions import *
 from time import sleep
-current_room = return_room('Reception')
+current_room = return_room('the TARDIS')
 typewriter_enabled = False
 typewriter_bypass = False
-suggestions_enabled = True
-inventorylist_enabled = True
 help_enabled = True
 story_history = ''
 
 def typewriter(textbuffer, speed = 1):
-    if not typewriter_bypass and typewriter_enabled:
-        tw_char_speed = (0.025 / speed)
+    if not typewriter_bypass and typewriter_enabled and textbuffer != None:
+        tw_char_speed = (0.020 / speed)
         tw_punct_speed = (tw_char_speed * 20)
         tw_char_final_speed = tw_char_speed
         tw_char_exhaustion_speed = tw_punct_speed / 1000
@@ -48,8 +47,9 @@ def print_room_items(room):
     Note: <BLANKLINE> here means that doctest should expect a blank line.
 
     """
-    if len(room['items']) != 0 and suggestions_enabled:
-        typewriter("There is " + list_of_items(room['items']) + " here.")
+    items = [room for room in room['items'] if room['take'] == True]
+    if len(items) != 0:
+        typewriter("There is " + list_of_items(items) + " here.")
         print("")
 
 def print_inventory_items(items):
@@ -58,7 +58,7 @@ def print_inventory_items(items):
     print "You have ..." instead of "There is ... here.". For example:
 
     >>> print_inventory_items(inventory)
-    You have a laptop, an id, some money and a sonic screwdriver.
+    You have psychic paper and some jelly babies.
     <BLANKLINE>
 
     """
@@ -109,9 +109,7 @@ def print_exit(direction, leads_to):
     GO <EXIT NAME UPPERCASE> to <where it leads>.
 
     For example:
-    >>> print_exit("east", "you personal tutor's office")
-    GO EAST to you personal tutor's office.
-    >>> print_exit("south", "Robs' room")
+    >>> print_exit("south", return_room('Reception')['exits']['south'])
     GO SOUTH to Robs' room.
     """
     print("GO " + direction.upper() + " to " + leads_to + ".")
@@ -146,22 +144,24 @@ def print_menu(exits, room_items, inv_items):
     What do you want to do?
 
     """
-    if suggestions_enabled:
-        typewriter("You can:")
-        # Iterate over available exits
-        for direction in exits:
-            # Print the exit name and where it leads to
-            print_exit(direction, exit_leads_to(exits, direction))
-        for item in room_items:
-            if item['take']:
-                print('TAKE ' + item['name'].replace('_', '').upper() + ' to take ' + item['name'] + ".")
-        for item in inv_items:
-            if item['drop']:
-                print('DROP ' + item['name'].replace('_', '').upper() + ' to drop your ' + item['name'].replace('_', ' ') + ".")
-        for item in inv_items:
-            if item['use']:
-                print('USE ' + item['name'].replace('_', '').upper() + ' to use your ' + item['name'].replace('_', ' ') + ".")
-
+    typewriter("You can:")
+    # Iterate over available exits
+    for direction in exits:
+        # Print the exit name and where it leads to
+        print_exit(direction, exit_leads_to(exits, direction))
+    for item in room_items:
+        if item['take']:
+            typewriter('TAKE ' + item['name'].replace('_', '').upper() + ' to take the ' + item['name'].replace('_',' ') + ".", 4)
+    for item in inv_items:
+        if item['drop']:
+            typewriter('DROP ' + item['name'].replace('_', '').upper() + ' to drop your ' + item['name'].replace('_', ' ') + ".",4)
+    for item in inv_items:
+        if item['use']:
+            typewriter('USE ' + item['name'].replace('_', '').upper() + ' to use the ' + item['name'].replace('_', ' ') + ".",4)
+    for item in inv_items:
+        if item['give']:
+            typewriter('GIVE ' + item['name'].replace('_', '').upper() + ' to someone')
+    typewriter('What do you want to do?', 2)
 def execute_go(direction):
     """This function, given the direction (e.g. "south") updates the current room
     to reflect the movement of the player if the direction is a valid exit
@@ -224,9 +224,14 @@ def execute_use(item_id1, item_id2 = ''):
         if action != None: action(item1, item2)
       
 def execute_give(item_id, person):
-    character = [char['action'] for char in current_room['characters'] if char['id'] == person or item_id][0] or None
-    if character != None:
-        character((return_item(item_id) if item_in_inventory(item_id) else return_item(person)))
+    character = [char for char in current_room['characters'] if char['name'].lower() == person or item_id][0] or None
+    itemid = (item_id if not character['name'].lower() == item_id else person)
+    item = return_item(itemid) or None
+    if character != None and item != None:
+        print('You try giving ' + character['name'] + ' ' + list_of_items([item]))
+        action = return_action(item_id, 'give')
+        if action != None: action(item_id)
+        #character((return_item(item_id) if item_in_inventory(item_id) else return_item(person)))
     else:
         print('You cannot give that')
 
@@ -241,7 +246,7 @@ def execute_describe(item_id):
 
 def execute_whereis(item_id):
     if item_exists(item_id):
-        print_wait('Your ' + return_item(item_id)['name'] + ' can be found in your inventory',2.5)
+        print_wait('Your ' + return_item(item_id)['name'].replace('_', ' ') + ' can be found in your inventory',2.5)
     else:
         print_item_location(item_id)
 
@@ -327,12 +332,11 @@ def menu(exits, room_items, inv_items):
     function before being returned.
 
     """
-
     # Display menu
-    if not typewriter_bypass: print_menu(exits, room_items, inv_items)
+    print_menu(exits, room_items, inv_items)
 
     # Read player's input
-    user_input = input("What do you want to do?\n> ")
+    user_input = input("> ")
 
     # Normalise the input
     normalised_user_input = normalise_input(user_input)
@@ -350,17 +354,15 @@ def main():
             typewriter_bypass = True
         else:
             typewriter_bypass = False
-            print_room(current_room)
-            # Display game status (room description, inventory etc.)
-            if inventorylist_enabled: print_inventory_items(inventory)
         story_history = current_room['description']
-
+        print_room(current_room)
+        # Display game status (room description, inventory etc.)
+        print_inventory_items(inventory)
         # Show the menu with possible actions and ask the player
         command = menu(current_room["exits"], current_room["items"], inventory)
         # Execute the player's command
         execute_command(command)
-
-
+        fix_exits()
 
 # Are we being run as a script? If so, run main().
 # '__main__' is the name of the scope in which top-level code executes.
@@ -371,13 +373,9 @@ if __name__ == "__main__":
     for arg in [args.lower() for args in sys.argv]:
         if arg == 'storymode':
             typewriter_enabled = True
-        elif arg == 'nosuggest':
-            suggestions_enabled = False
         elif arg == 'nohelp':
             help_enabled = False
-        elif arg == 'noinvlist':
-            inventorylist_enabled = False
         elif 'help' in arg or '?' in arg:
             start = False
-            print('HELP:\nSTORYMODE\n   Story mode uses a typewriter function to allow the player to read.\nNOSUGGEST\n   Suggestions are provided to help the user throughout the story. Disabling this makes the game more interesting.\nNOHELP\n   Help can usually be provided when \'help\' is inputted. Without it can make the game harder.\nNOINVLIST\n   Normally, a list of your inventory such as \'You have an id card, a laptop and some money\' appears every time a command has been entered.\nHELP\n   Shows this help menu')
+            print('HELP:\nSTORYMODE\n   Story mode uses a typewriter function to allow the player to read.\nNOHELP\n   Help can usually be provided when \'help\' is inputted. Without it can make the game harder.\nHELP\n   Shows this help menu')
     if start: main()
